@@ -1,0 +1,16 @@
+# Local PostgreSQL for development:  docker compose up -d
+# The schema is applied automatically the first time the container starts.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: weather
+      POSTGRES_PASSWORD: weather
+      POSTGRES_DB: weatherdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+volumes:
+  pgdata:

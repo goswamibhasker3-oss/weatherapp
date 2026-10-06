@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weather App by Bhaskar Goswami</title>
+  <meta name="description" content="Live weather and a five-day forecast for any city. Built with Flask and the OpenWeatherMap API.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/theme-init.js') }}"></script>
+</head>
+<body data-sky="clear-day">
+  <div class="page">
+    <header class="topbar">
+      <h1 class="brand">Weather</h1>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Temperature unit">
+          <button type="button" data-units="metric" aria-pressed="true">°C</button>
+          <button type="button" data-units="imperial" aria-pressed="false">°F</button>
+        </div>
+        <button type="button" id="theme-toggle" class="icon-btn" aria-label="Switch to dark mode">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M21 14.5A9 9 0 0 1 9.5 3a9 9 0 1 0 11.5 11.5Z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <form id="search-form" class="search" role="search" novalidate>
+      <label class="field grow">
+        <span class="sr-only">City</span>
+        <input id="city" name="city" type="search" placeholder="Search for a city" autocomplete="off" maxlength="100" required>
+      </label>
+      <label class="field country">
+        <span class="sr-only">Country code, optional</span>
+        <input id="country" name="country" type="text" placeholder="Country (IN)" autocomplete="off" maxlength="2" title="Two-letter country code, for example IN, US or GB">
+      </label>
+      <button type="submit" class="btn primary">Search</button>
+      <button type="button" id="locate" class="btn">Use my location</button>
+    </form>
+
+    <div class="history" id="history" hidden>
+      <span class="history-label">Recent</span>
+      <ul id="history-list"></ul>
+      <button type="button" id="clear-history" class="link-btn">Clear</button>
+    </div>
+
+    <div class="history" id="popular" hidden>
+      <span class="history-label">Popular</span>
+      <ul id="popular-list"></ul>
+    </div>
+
+    <p class="sr-only" id="status" role="status" aria-live="polite"></p>
+
+    <main id="view">
+      <section id="state-empty" class="state">
+        <h2>Where are you headed?</h2>
+        <p>Search for a city above, or use your location to see current conditions and the next five days.</p>
+      </section>
+
+      <section id="state-loading" class="loading" hidden aria-hidden="true">
+        <div class="sk sk-hero"></div>
+        <div class="sk-row"><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div></div>
+      </section>
+
+      <section id="state-error" class="state error" hidden role="alert">
+        <h2 id="error-title"></h2>
+        <p id="error-message"></p>
+        <button type="button" id="retry" class="btn">Try again</button>
+      </section>
+
+      <div id="result" hidden>
+        <article class="hero">
+          <div class="sky">
+            <p class="place" id="place"></p>
+            <p class="temp"><span id="temp"></span><span class="temp-unit" id="temp-unit"></span></p>
+            <p class="cond"><img id="cond-icon" alt="" width="56" height="56"><span id="cond-text"></span></p>
+            <p class="feels" id="feels"></p>
+          </div>
+          <dl class="stats" id="stats"></dl>
+        </article>
+
+        <section aria-labelledby="forecast-title">
+          <h2 id="forecast-title" class="section-title">Forecast</h2>
+          <ol class="forecast" id="forecast"></ol>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>Built by Bhaskar Goswami, B.Sc. Information Technology. Weather data from <a href="https://openweathermap.org/" rel="noopener noreferrer">OpenWeatherMap</a>.</p>
+    </footer>
+  </div>
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</body>
+</html>
